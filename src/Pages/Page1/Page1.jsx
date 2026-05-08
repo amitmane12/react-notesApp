@@ -1,27 +1,12 @@
 import { useState } from "react";
 import PageNavbar from "./PageNavbar";
+import Main from "./Main";
 
 const Page1 = () => {
-  const [title, settitle] = useState("");
-  const [details, setdetails] = useState("");
-  const [task, settask] = useState([]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(`title:${title} and details are ${details}}`);
-    const tempArr = [...task];
-
-    tempArr.push({ title, details });
-    settask(tempArr);
-
-    setdetails("");
-    settitle("");
-    console.log("The Array is:", task);
-  };
   return (
     <div className="min-h-screen bg-black">
       <PageNavbar />
-      <div className="h-full w-full border">
+      {/* <div className="h-full w-full border">
         <h1 className="uppercase text-2xl h-20 w-full flex items-center justify-center  mb-5">
           notes
         </h1>
@@ -62,7 +47,8 @@ const Page1 = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
+      <Main />
     </div>
   );
 };
