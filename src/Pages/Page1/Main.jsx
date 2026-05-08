@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import "remixicon/fonts/remixicon.css";
 
 const Main = () => {
   const [title, settitle] = useState("");
@@ -10,8 +11,14 @@ const Main = () => {
     e.preventDefault();
     console.log(`title:${title} and details are ${details}}`);
     const tempArr = [...task];
-
-    tempArr.push({ title, details });
+    const date = new Date().toDateString();
+    tempArr.push({
+      title,
+      details,
+      id: date.toString(),
+      status: "pending",
+      completed: false,
+    });
     settask(tempArr);
 
     setdetails("");
@@ -47,15 +54,83 @@ const Main = () => {
           </button>
         </form>
 
-        <div className="min-h-100 bg-blue-700 h-full w-2/3  ml-5 mr-5 rounded-2xl border flex flex-wrap">
+        <div className="main min-h-100 bg-blue-700 h-full w-2/3  ml-5 mr-5 rounded-2xl border flex flex-wrap">
           {task.map((item, idx) => (
-            <div className="h-48 w-44 bg-amber-50 rounded-2xl m-5">
-              <h2 className="font-bold  bg-gray-400 m-2 rounded wrap-break-word">
-                {item.title}
-              </h2>
-              <p className="font-medium bg-amber-100 m-2 rounded">
-                {item.details}
-              </p>
+            <div
+              style={{
+                "webkit-scrollbar": "none",
+              }}
+              className="card  w-52
+               bg-amber-50 
+               rounded-2xl
+                m-5
+                overflow-auto  overscroll-none
+                 border border-gray-300 scroll-my-0
+                 flex flex-col items-start h-1/3 max-sm:w-[90%] max-sm:h-40"
+              key={idx}
+            >
+              <div className="status  h-full w-full">
+                <div className="flex items-center justify-between w-full">
+                  <h1 className="font-medium text-[16px] text-lg bg-gray-300 m-1 rounded break-all w-fit overflow-hidden">
+                    {item.status}
+                  </h1>
+                  <div className=" btns flex w-fit justify-around p-2 flex-wraps   max-sm:items-center">
+                    <button
+                      className="rounded border border-red-500 active:scale-95  scale-100  max-sm:w-[10%]"
+                      onClick={() => {
+                        const tempArr = [...task];
+                        tempArr.splice(idx, 1);
+                        settask(tempArr);
+                      }}
+                    >
+                      ❌
+                    </button>
+                    <button
+                      className="   border border-green-500 active:scale-95 text-white  scale-100 h-6 max-sm:w-[10%]"
+                      onClick={() => {
+                        const tempArr = [...task];
+                        const temp = tempArr[idx];
+                        tempArr.splice(idx, 1);
+                        tempArr.unshift(temp);
+                        settask(tempArr);
+                      }}
+                    >
+                      🔝
+                      {/* <RiDeleteBinLine /> */}
+                    </button>
+                    <button
+                      className="  border border-blue-500 active:scale-95 text-white font-medium scale-100 h-6 max-sm:w-[10%]"
+                      onClick={() => {
+                        const tempArr = [...task];
+                        const temp = tempArr[idx];
+                        tempArr[idx].completed = !tempArr[idx].completed;
+
+                        settask(tempArr);
+                      }}
+                    >
+                      ✅
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-medium text-sm bg-gray-300 m-2 rounded break-all  w-fit overflow-hidden">
+                    {item.id}
+                  </p>
+                </div>
+              </div>
+
+              <div className="details flex flex-col items-start justify-start w-full">
+                <h2
+                  className={`font-bold  bg-gray-400 m-2 rounded break-all overflow-hidden  w-fit ${item.completed ? "line-through" : ""} `}
+                >
+                  {item.title}
+                </h2>
+                <p
+                  className={`font-medium bg-amber-100 m-2 rounded  break-all w-fit  ${item.completed ? "line-through" : ""} overflow-hidden`}
+                >
+                  {item.details}
+                </p>
+              </div>
             </div>
           ))}
         </div>

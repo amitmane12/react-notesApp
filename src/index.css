@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.card::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
